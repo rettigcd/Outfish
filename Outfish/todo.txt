@@ -1,0 +1,216 @@
+﻿
+Address Distinct Issue - for items selector paths separated by commas
+
+-----------------------------
+
+Features:
+
+Select html nodes using jQuery CSS selector syntax.
+Fluent String parsing.
+Reports offending strings for parseInt
+parses JavaScript data into DOM
+Built in Regex matching
+C#
+ScrapeRequest/ScrapeResponse
+
+How do I...
+
+GET a web page?
+
+    ScreenScraper scraper = new ScreenScraper(); // reuse for mutiple requests
+    WebPage resultPage = scraper.GetPage( "www.google.com" );
+    Console.WriteLine( resultPage.Content );
+    
+POST to a web page?
+
+    ScreenScraper scraper = new ScreenScraper(); // reuse for mutiple requests
+
+    var postData = new NameValueCollection();
+    postData.Add("keyword","Tokyo Japan");
+    postData.Add("returnAll", "1" );
+
+    WebPage resultPage = scraper.GetPage( "my.url.com", postData );
+    Console.WriteLine( resultPage.Content );
+
+Extract data from a web page using Regular Expressions.
+
+    using System.Linq;
+
+    var scraper = new ScreenScraper();
+    
+    WebPage page = scraper
+        .GetPage("http://www.streetnames.com"); 
+    
+    string[] streetNames = page
+        .Matches(@"(\w+) Street")
+        .Select( match => match.Groups[1].Value )
+        .ToArray();
+    
+    string sanCity = page.Match("San \w+").Value
+    
+Set single Request Time Out
+
+    var request = new ScrapeRequest("www.somesite.com"){
+        Timeout = 30000 // 30 seconds
+    };
+    WebPage page = scraper.GetPage( request );
+    
+Set default Request Time Out
+
+    scraper.DefaultTimeout = 30000; // 30 seconds
+    WebPage page = scraper.GetPage( myReqest )
+
+POST using a custom encoding
+
+    IPostEncoder postData = new MyCustomPostEncoder( dataBuffer );
+    
+    var page = scraper.GetPage( "www.google.com", postData );
+
+** Selectors **
+
+Find html tags on a page using CSS selectors.
+
+    IEnumberable<string> titles = webPage.Root
+        .Find("h1")
+        .Select( node => node.InnerHtml.HtmlDecode() );
+        
+    IEnumerable<string> imageUrls = webPage.Root
+        .Find("img")
+        .Select( node => node["href"] );
+    
+    string address = webPage.Root
+        .FindFirst("#addressId")  // throws exception if node is not found
+        .InnerHmlt;
+
+    List<PersonName> webPage.Root
+        .Find(".person")
+        .Select( node => new PersonName {
+            First = node.FindFirst('.first').InnerHtml.HtmlDecode(),
+            Middle = node.FindFirst('.middle').InnerHtml.HtmlDecode(),
+            Last = node.FirstFirst('.last').InnerHtml.HtmlDecode(),
+        })
+        .ToList();
+
+Find the HtmlNode containing text at some location.
+
+    string content = "<root><h1>header</h1><span>123</span></root>";
+    var doc = new HtmlDocument( content );
+    int index = doc.Source.IndexOf( "123" ); // 26
+    var spanNode = doc.FindNodeAt( index );
+
+** Extenders **
+
+Fluently clipping strings.
+
+    string cityName = webPage.Content // .Content is the HTML string
+        .StartingAt("San")          // results include 'San'
+        .EndingAfter("California")  // results include 'California
+        
+    string id = webPage.Content
+        .StartingAfter("id=")   // 'id=' not part of resulting string
+        .EndingAt("&a=1")       // '&a=1' not part of resulting string
+        
+    string url = "url(http://www.facebook.com)"
+        .ClipEnds( 4, 1 );   // removes 'url(' and ')'
+
+Find string embedded in JavaScript
+
+    string str = "<script> var a = { a:true, c:{ d:"winning!" } }</script>";
+    var doc = new HtmlDocument( str );
+    string d = doc.Find("string#d") // 'string' part is not needed
+        .OuterHtml
+        .JsonStringDecode();    // removes end-quotes and unescapes stuff between
+
+Extract deeply embedded strings
+
+    var buriedHref = webPage.Root
+        .FindFirst("script function if string:nth-child(3)")
+        .OuterHtml.JsonStringDecode()
+        .ParseHtmlDocument().Root
+        .FindFirst("div.class span a")
+        .Select( node => node["href"] )
+        
+Perform structured data extraction
+
+    public class PaymentPage : HtmlPage{
+    
+        public override LoadContent( string content ){
+            base.LoadContent( content );
+            
+            // extract payments
+            this.Payments = this.Root
+                .Find("div.payment")
+                .Select( node => new Payment{
+                    Item = node.ChildNodes[2].InnerHtml,
+                    Price = node.FindFirst(".price").InnerHtml,
+                    Quantity = node.FindFirst(".qnty").InnerHtml
+                })
+                .ToList();
+            
+            this.Total = this.Content
+                .StartingAfter("Total: ")
+                .ParseDouble();
+        }
+        
+        List<Payment> Payments{ get; private set; }
+        double Total{ get; private set; }
+        
+    }
+
+    PaymentPage page = scraper.GetPage<PaymentPage>( request );
+    
+    MessageBox.Show( page.Payments.Count + " payments totaling " + page.Total );
+    
+Log WebException and ContentLoadExceptions
+
+    var scraper = new ScreenScraper();
+    scraper.ScrapeFailure += Logger_Scrape_Exceptions;
+    
+    try{
+        scraper.GetPage<PaymentPAge>();
+    }
+    catch(WebException wex){
+        // handle transport type exception
+    }
+    catch(ValidateException vex){
+        // handle any exceptions that occure during a WebPage.Load(content);
+    }
+
+Capture exceptions that occur while Loading Content into WebPage class.
+
+Find an ascestor node.
+
+Find a descendant node.
+
+Clip a string.
+
+
+==========================================
+Trouble Shooting 
+==========================================
+
+Attribute selectors are slow.
+
+	Currently attribute parsing is slow and not performed unless it is needed.  
+	Adding a node-name to the selector will allow the search algorythm to only parse the attributes on matching nodes.
+	
+	var x = node.Find(".myClass"); // slow because it has to parse attributes on every single node so it can check class.
+	var y = node.Find("a.myClass"); // faster since it only needs to parse that attributes on the <a> nodes.
+	
+Selecting by #id is not Order(1).
+
+	This feature would require a lot of additional complexity and I haven't found it to be that beneficial.
+	If you need it to be Order(1), you can grab the value and reference it yourself.
+	
+Parent->Child ('>') and Sibling ('~' '+') selectors are not working.
+
+	The current parser requires these characters to be separated by a space.
+	
+	var x = node.Find("div>span");  // bad - parsing needs spaced.
+	var y = node.Find("div > span"); // good to go...
+	
+Parsing Exception for CSS selector with spaces (' ').
+
+	The parsing algorythm for the CSS selectors performs a Split(' ') and thus 
+	cannot correctly parse embeded strings with spaces such as :contains("hi there").
+

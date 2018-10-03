@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{0BC9CBBE-FF5B-4FE7-ADA8-70CE9F2E74E6}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Outfish</RootNamespace>
+    <AssemblyName>Outfish</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <SourceAnalysisOverrideSettingsFile>C:\Documents and Settings\dean_rettig\Application Data\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <NoStdLib>False</NoStdLib>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <SignAssembly>False</SignAssembly>
+    <DelaySign>False</DelaySign>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <DocumentationFile>bin\Debug\Outfish.xml</DocumentationFile>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'x86' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <FileAlignment>4096</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <OutputPath>bin\Debug\</OutputPath>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <CheckForOverflowUnderflow>True</CheckForOverflowUnderflow>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <OutputPath>bin\Release\</OutputPath>
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
+    <DefineConstants>TRACE</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>6</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Css\CssExpression.cs" />
+    <Compile Include="Css\CssLexer.cs" />
+    <Compile Include="Css\CssToken.cs" />
+    <Compile Include="Extenders\Clip.cs" />
+    <Compile Include="Extenders\HtmlExtensions.cs" />
+    <Compile Include="Extenders\FluentExtenders.cs" />
+    <Compile Include="Extenders\StringClipping.cs" />
+    <Compile Include="Extenders\StringDecoding.cs" />
+    <Compile Include="Extenders\StringParsing.cs" />
+    <Compile Include="Exceptions\ItemNotFoundException.cs" />
+    <Compile Include="JavaScript\JsLexer.cs" />
+    <Compile Include="Json\JsonDeserializer.cs" />
+    <Compile Include="Json\JsonSerializer.cs" />
+    <Compile Include="JavaScript\JsToken.cs" />
+    <Compile Include="JavaScript\JsTokenType.cs" />
+    <Compile Include="PostData\MultiPartFormData.cs" />
+    <Compile Include="PostData\NameValueCollection_Extensions.cs" />
+    <Compile Include="PostData\TextPlainFormData.cs" />
+    <Compile Include="Transport\IDocScraper.cs" />
+    <Compile Include="Transport\IFileScraper.cs" />
+    <Compile Include="Transport\RequestSettings.cs" />
+    <Compile Include="Exceptions\ScrapeException.cs" />
+    <Compile Include="Selectors\ContainsTextSelector.cs" />
+    <Compile Include="Selectors\HasParentSelector.cs" />
+    <Compile Include="Selectors\HasPreviousSiblingSelector.cs" />
+    <Compile Include="Selectors\Path\CssMultiPathSelector.cs" />
+    <Compile Include="Selectors\Path\CssPathSelector.cs" />
+    <Compile Include="Selectors\Path\IDescendantFinder.cs" />
+    <Compile Include="Selectors\Path\StepSelector.cs" />
+    <Compile Include="Transport\IWebScraper.cs" />
+    <Compile Include="Transport\ResponseReader.cs" />
+    <Compile Include="Transport\ScrapeRequest.cs" />
+    <Compile Include="Transport\WebScraper.cs" />
+    <Compile Include="Selectors\AndSelector.cs" />
+    <Compile Include="Selectors\AttributeSelector.cs" />
+    <Compile Include="Selectors\PredicateSelector.cs" />
+    <Compile Include="Selectors\HasChildSelector.cs" />
+    <Compile Include="Selectors\INodeSelector.cs" />
+    <Compile Include="Selectors\NameSelector.cs" />
+    <Compile Include="PostData\FormUrlPostData.cs" />
+    <Compile Include="PostData\IPostEncoder.cs" />
+    <Compile Include="PostData\PlainPostData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Selectors\SiblingSelector.cs" />
+    <Compile Include="Tree\DescendantSearcherHelper.cs" />
+    <Compile Include="Tree\FormEncodingType.cs" />
+    <Compile Include="Tree\HtmlForm.cs" />
+    <Compile Include="Tree\HtmlFormField.cs" />
+    <Compile Include="Tree\HtmlParseOptions.cs" />
+    <Compile Include="Tree\JavaScriptDocument.cs" />
+    <Compile Include="Tree\HtmlDocumentParser.cs" />
+    <Compile Include="Tree\JavaScriptDocumentParser.cs" />
+    <Compile Include="Exceptions\ParseDocumentException.cs" />
+    <Compile Include="Tree\WebDocument.cs" />
+    <Compile Include="Tree\XmlNodeExtension.cs" />
+    <Compile Include="Tree\CommentNode.cs" />
+    <Compile Include="Tree\HtmlDocument.cs" />
+    <Compile Include="Tree\HtmlNode.cs" />
+    <Compile Include="Tree\LineManager.cs" />
+    <Compile Include="Tree\Tag.cs" />
+    <Compile Include="Tree\TextNode.cs" />
+    <Compile Include="Tree\ContainerNode.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="todo.txt" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,284 @@
+<html>
+<head>
+    <title>Outfish - How to...</title>
+    <style type="text/css">
+        pre{ 
+            border: thin inset gray;
+            padding: 10px;
+            color: #006000;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <h1>How do I...</h1>
+
+    <ul></ul>
+
+<h2>GET a web page?</h2>
+<pre>
+ScreenScraper scraper = new ScreenScraper(); // reuse for mutiple requests
+WebPage resultPage = scraper.GetPage( "www.google.com" );
+Console.WriteLine( resultPage.Source );
+</pre>
+
+
+
+<h2>POST to a web page?</h2>
+<pre>
+ScreenScraper scraper = new ScreenScraper(); // reuse for mutiple requests
+
+var postData = new NameValueCollection();
+postData.Add("keyword","Tokyo Japan");
+postData.Add("returnAll", "1" );
+
+WebPage resultPage = scraper.GetPage( "my.url.com", postData );
+Console.WriteLine( resultPage.Source );
+</pre>
+
+<h2>POST using a custom encoding</h2>
+<pre>
+IPostEncoder postData = new MyCustomPostEncoder( dataBuffer );
+
+var page = scraper.GetPage( "www.google.com", postData );
+</pre>
+
+<h2>Extract data from a web page using Regular Expressions.</h2>
+<pre>
+using System.Linq;
+
+var scraper = new ScreenScraper();
+
+// get a page
+WebPage page = scraper
+    .GetPage("http://www.streetnames.com"); 
+
+// pull out every name that is followed by 'Street'
+string[] streetNames = page
+    .Matches(@"(\w+) Street")
+    .Select( match => match.Groups[1].Value )
+    .ToArray();
+
+// pull out the city that starts with 'San'
+string city = page.Match(@"San \w+").Value
+</pre>
+
+<h2>Set the default timeout used for all Requests</h2>
+<pre>
+// set default timeout
+scraper.DefaultTimeout = 30000;
+</pre>
+
+<h2>Set a customized timeout for a single Request </h2>
+<pre>
+var request = new ScrapeRequest("www.somesite.com"){
+    Timeout = 30000 // 30 seconds
+};
+WebPage page = scraper.GetPage( request );
+</pre>
+
+<h2>Find html tags on a page using CSS selectors.</h2>
+<pre>
+IEnumberable<string> titles = webPage.Root
+    .Find("h1")
+    .Select( node => node.InnerText );
+    
+IEnumerable<string> imageUrls = webPage.Root
+    .Find("img")
+    .Select( node => node["href"] );
+
+string address = webPage.Root
+    .FindFirst("#addressId")  // throws exception if node is not found
+    .InnerText;
+
+List<PersonName> webPage.Root
+    .Find(".person")
+    .Select( node => new PersonName {
+        First = node.FindFirst('.first').InnerText,
+        Middle = node.FindFirst('.middle').InnerText,
+        Last = node.FirstFirst('.last').InnerText,
+    })
+    .ToList();
+</pre>
+
+<h2>Find the HtmlNode containing text at some location.</h2>
+<pre>
+string content = "&lt;root&gt;&lt;h1&gt;header&lt;/h1&gt;&lt;span&gt;123&lt;/span&gt;&lt;/root&gt;";
+var doc = new HtmlDocument( content );
+int index = doc.Source.IndexOf( "123" ); // 26
+var textNode = doc.FindNodeAt( index ); // finds text node inside span
+</pre>
+
+<h2>Fluently clipping strings.</h2>
+<pre>
+// results include 'San' thru and including 'California'
+string cityName = webPage.Source // .Source is the HTML string
+    .Clip( Clip.At("San"), Clip.After("California") );
+    
+string id = webPage.Source
+    .Clip( Clip.After("id="), Clip.At("&a=1") );
+    
+string url = "url(http://www.facebook.com)"
+    .Clip( Clip.Skip(4), Clip.FromEnd(1) );   // removes 'url(' and ')'
+</pre>
+
+<h2>Find string embedded in JavaScript</h2>
+<pre>
+string str = "var a = { a:true, c:{ d:"winning!" } }";
+var doc = new JavaScriptDocument( str );
+string d = doc.Find("string#d") // 'string' part is not needed
+    .OuterHtml
+    .JsonStringDecode();    // removes end-quotes and unescapes stuff between
+</pre>
+
+<h2>Extract deeply embedded strings</h2>
+<pre>
+var buriedHref = webPage.Root
+    .FindFirst("script function if string:nth-child(3)")
+    .OuterHtml.JsonStringDecode()
+    .ParseHtmlDocument().Root
+    .FindFirst("div.class span a")
+    .Select( node => node["href"] )
+</pre>
+
+<h2>Perform structured data extraction</h2>
+<pre>
+public class PaymentPage : HtmlPage{
+
+    public override LoadContent( string content ){
+        base.LoadContent( content );
+        
+        // extract payments
+        this.Payments = this.Root
+            .Find("div.payment")
+            .Select( node => new Payment{
+                Item = node.ChildNodes[2].InnerHtml,
+                Price = node.FindFirst(".price").InnerHtml,
+                Quantity = node.FindFirst(".qnty").InnerHtml
+            })
+            .ToList();
+        
+        this.Total = this.Source
+            .StartingAfter("Total: ")
+            .ParseDouble();
+    }
+    
+    List<Payment> Payments{ get; private set; }
+    double Total{ get; private set; }
+    
+}
+
+PaymentPage page = scraper.GetPage<PaymentPage>( request );
+
+MessageBox.Show( page.Payments.Count + " payments totaling " + page.Total );
+</pre>
+
+<h2>Log WebException and ContentLoadExceptions</h2>
+<pre>
+var scraper = new ScreenScraper();
+scraper.ScrapeFailure += Logger_Scrape_Exceptions;
+
+try{
+    scraper.GetPage<PaymentPAge>();
+}
+catch(WebException wex){
+    // handle transport type exception
+}
+catch(ValidateException vex){
+    // handle any exceptions that occure during a WebPage.Load(content);
+}
+</pre>
+
+<h2>Capture exceptions that occur while Loading Content into WebPage class.</h2>
+<pre>
+string sourceString = "...";
+
+// option 1 - catch LoadContentException directly
+try{
+    MyPage page = scraper.GetPage&lt;MyPage&gt;(request);
+}catch( LoadContentException ex){...}
+
+</pre>
+
+<h2>Log exceptions</h2>
+
+<pre>
+// occurs when a WebException and LoadContentException occurs.
+scraper.ScrapeFailure += this.scraper_logFailure;
+</pre>
+
+
+
+<h2>Find closest ascestor node.</h2>
+
+Use JQuery like query.
+
+<pre>
+    var higherDiv = currentNode.Closest( "div" );
+</pre>
+
+<h2>Find a descendant node.</h2>
+<pre>
+    var someDescendant = currentNode.Find( "div" );
+</pre>
+
+<h2>Clip a string.</h2></h2>
+<pre>
+</pre>
+
+</div>
+<!-- 
+==========================================
+Trouble Shooting 
+==========================================
+-->
+
+<div>
+    <h1>Trouble Shooting</h1>
+
+    <ul></ul>
+
+    <h2>Attribute selectors are slow.</h2>
+
+        Currently attribute parsing is slow and not performed unless it is needed.  
+        Adding a node-name to the selector will allow the search algorythm to only parse the attributes on matching nodes.
+        
+        <pre>
+        var x = node.Find(".myClass"); // slow because it has to parse attributes on every single node so it can check class.
+        var y = node.Find("a.myClass"); // faster since it only needs to parse that attributes on the <a> nodes.
+        </pre>
+
+    <h2>Selecting by #id is not Order(1).</h2>
+
+        <pre>
+        This feature would require a lot of additional complexity and I haven't found it to be that beneficial.
+        If you need it to be Order(1), you can grab the value and reference it yourself.
+        </pre>
+        
+    <h2>Parent->Child ('>') and Sibling ('~' '+') selectors are not working.</h2>
+
+        The current parser requires these characters to be separated by a space.
+        <pre>
+        var x = node.Find("div>span");  // bad - parsing needs spaced.
+        var y = node.Find("div > span"); // good to go...
+        </pre>
+    <h2>Parsing Exception for CSS selector with spaces (' ').</h2>
+
+        <pre>
+        The parsing algorythm for the CSS selectors performs a Split(' ') and thus 
+        cannot correctly parse embeded strings with spaces such as :contains("hi there").
+        </pre>
+</div>
+
+<script src="jquery-1.7.1.js"></script>
+<script>
+    $('h1').css('color','red');
+    $('div h2').each( function(){
+       var $this = $(this);
+       $(this.parentNode).find('ul')
+        .append('<li><a href="#bob">'+this.innerHTML+'</a></li>'); 
+    });
+</script>
+</body>
+</html>
