@@ -117,6 +117,18 @@ namespace Outfish_Test {
 			Assert.That( doc.DocumentNode, Is.Not.Null );
 		}
 
+		[Test]
+		public void AttibuteValueCaseIsPreserved() {
+			var doc = new HtmlDocument("<root><bob id='Abc'/></root>");
+			Assert.That(doc.FindFirst("bob")["id"], Is.EqualTo("Abc"));
+		}
+
+		[Test]
+		public void AttibuteCaseIsPreserved() {
+			var doc = new HtmlDocument("<root><bob id='Abc'/></root>");
+			Assert.That(doc.FindFirst("bob")["id"], Is.EqualTo("Abc"));
+		}
+
 	}
 	
 }

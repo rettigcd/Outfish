@@ -68,6 +68,7 @@
     <Compile Include="Css\CssExpression.cs" />
     <Compile Include="Css\CssLexer.cs" />
     <Compile Include="Css\CssToken.cs" />
+    <Compile Include="Css\DescendantBuilder.cs" />
     <Compile Include="Extenders\Clip.cs" />
     <Compile Include="Extenders\HtmlExtensions.cs" />
     <Compile Include="Extenders\FluentExtenders.cs" />
@@ -76,13 +77,17 @@
     <Compile Include="Extenders\StringParsing.cs" />
     <Compile Include="Exceptions\ItemNotFoundException.cs" />
     <Compile Include="JavaScript\JsLexer.cs" />
+    <Compile Include="Json\JsonArray.cs" />
     <Compile Include="Json\JsonDeserializer.cs" />
+    <Compile Include="Json\JsonObject.cs" />
     <Compile Include="Json\JsonSerializer.cs" />
     <Compile Include="JavaScript\JsToken.cs" />
     <Compile Include="JavaScript\JsTokenType.cs" />
     <Compile Include="PostData\MultiPartFormData.cs" />
     <Compile Include="PostData\NameValueCollection_Extensions.cs" />
     <Compile Include="PostData\TextPlainFormData.cs" />
+    <Compile Include="Selectors\Path\BaseStepSelector.cs" />
+    <Compile Include="Selectors\Path\DeepStepSelector.cs" />
     <Compile Include="Transport\IDocScraper.cs" />
     <Compile Include="Transport\IFileScraper.cs" />
     <Compile Include="Transport\RequestSettings.cs" />
@@ -102,7 +107,7 @@
     <Compile Include="Selectors\AttributeSelector.cs" />
     <Compile Include="Selectors\PredicateSelector.cs" />
     <Compile Include="Selectors\HasChildSelector.cs" />
-    <Compile Include="Selectors\INodeSelector.cs" />
+    <Compile Include="Selectors\INodeMatcher.cs" />
     <Compile Include="Selectors\NameSelector.cs" />
     <Compile Include="PostData\FormUrlPostData.cs" />
     <Compile Include="PostData\IPostEncoder.cs" />

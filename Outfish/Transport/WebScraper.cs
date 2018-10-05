@@ -495,7 +495,7 @@ namespace Outfish {
 			return httpRequest;
 		}
 
-		private RequestSettings ApplyCustomSettingsToDefaultSettings( ScrapeRequest request ) {
+		RequestSettings ApplyCustomSettingsToDefaultSettings( ScrapeRequest request ) {
 			var settings = this.Defaults.Clone();
 			foreach( var adjustment in request.AdjustSettings )
 				adjustment( settings );

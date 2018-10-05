@@ -1,24 +1,16 @@
 ﻿using System;
 using System.Text;
-//using JsonArray = System.Collections.Generic.List<dynamic>;
-//using JsonObject = System.Collections.Generic.Dictionary<string, dynamic>;
 
 namespace Outfish.JavaScript {
-
-	public class JsonArray : System.Collections.Generic.List<dynamic> { };
-	public class JsonObject : System.Collections.Generic.Dictionary<string, dynamic> { };
 
 
 	/// <summary>
 	/// The world doesn't know about this object. 
 	/// Use through JsonSerializer.
 	/// </summary>
-	internal class JsonDeserializer 
-	//	: IDisposable 
-	{
+	internal class JsonDeserializer {
 
 		public JsonDeserializer( string json ) {
-			//_reader = new StringReader( json );
 			_json = json;
 		}
 
@@ -171,11 +163,6 @@ namespace Outfish.JavaScript {
 				default: throw new FormatException( "invalid boolean value" );
 			}
 		}
-
-		//public void Dispose() {
-		//	if( _reader != null ) _reader.Dispose();
-		//	_reader = null;
-		//}
 
 		#region private Helper methods
 

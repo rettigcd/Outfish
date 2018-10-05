@@ -5,10 +5,6 @@ using System.Text;
 
 namespace Outfish.JavaScript {
 
-	// rename some classes show preferred types
-	//	using JsonArray = System.Collections.Generic.List<dynamic>;
-	//	using JsonObject = System.Collections.Generic.Dictionary<string, dynamic>;
-
 	/// <summary>
 	/// LL(1), recursive-descent, predictive parser for serializing/deserializing:
 	///        objects,enumerables,nulls,numbers, etc to JavaScript Object Notation

@@ -14,9 +14,6 @@ namespace Outfish {
 		
 		static readonly public SiblingSelector Odd = new SiblingSelector( 2, 1 );
 	
-		/// <summary>
-		/// 
-		/// </summary>
 		/// <param name="divisor">set to 0 or 1 to disable</param>
 		/// <param name="remainder">base-1 index. 1 returns the first item</param>
 		public SiblingSelector(int divisor,int remainder){

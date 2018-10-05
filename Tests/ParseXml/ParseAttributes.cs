@@ -7,10 +7,6 @@ namespace Outfish_Test {
 	[TestFixture]
 	public class ParseAttributes {
 
-		HtmlNode Parse(string s){ 
-			return new HtmlDocument(s).DocumentNode;
-		}
-
 		[Test]
 		public void Quoting(
 			[Values("'","\"","")]string quoteType
@@ -44,10 +40,11 @@ namespace Outfish_Test {
 			
 		}
 
-		[Test]
-		public void Values(
-			[Values("bob","a b","html://","\"double quotes\"")]string v
-		){
+		[TestCase("bob")]
+		[TestCase("a b")]
+		[TestCase("html://")]
+		[TestCase("\"double quotes\"")]
+		public void Values( string v ){
 			string html = "<body class='"+v+"'>";
 			var node = this.Parse( html );
 			Assert.That( node["class"], Is.EqualTo( v ) );
@@ -83,6 +80,10 @@ namespace Outfish_Test {
 				.GetField("_attributes", BindingFlags.NonPublic|BindingFlags.Instance )
 				.GetValue( node );
 			Assert.IsNull( internalAttributes );
+		}
+
+		HtmlNode Parse(string s){ 
+			return new HtmlDocument(s).DocumentNode;
 		}
 
 	}

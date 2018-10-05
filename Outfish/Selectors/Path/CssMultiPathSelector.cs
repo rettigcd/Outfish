@@ -30,7 +30,7 @@ namespace Outfish {
 			// clean up
 			nodes = nodes
 				.OrderBy( n => n.Begin )	// put them in document order
-				.Distinct();					// remove duplicates
+				.Distinct();				// remove duplicates
 			
 			return nodes;
 		}
@@ -40,7 +40,7 @@ namespace Outfish {
 		}
 
 		public IEnumerable<XmlNode> FindDescendantNodes( XmlNode rootNode ) {
-			throw new NotImplementedException();
+			throw new NotImplementedException("Can't find Descendants of XmlNode");
 		}
 
 

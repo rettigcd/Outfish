@@ -21,7 +21,7 @@ namespace Outfish {
 
 		static public byte[] EncodeBytes( NameValueCollection postData ) {
 
-			if( postData.Count == 0 ) { return new byte[0]; }
+			if( postData.Count == 0 ) return new byte[0];
 
 			string postDataString = GetQueryString( postData );
 

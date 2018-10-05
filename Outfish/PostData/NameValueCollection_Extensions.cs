@@ -5,6 +5,9 @@ namespace Outfish {
 
 	static public class NameValueCollection_Extensions {
 
+		/// <summary>
+		/// Converts NameValueCollection to a stream of KeyValuePairs
+		/// </summary>
 		public static IEnumerable<KeyValuePair<string, string>> Flatten( this NameValueCollection nameValueCollection ) {
 			for( int i = 0; i < nameValueCollection.Count; ++i ) {
 				string key = nameValueCollection.GetKey( i );

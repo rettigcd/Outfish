@@ -60,8 +60,7 @@ namespace Outfish {
 
 		/// <summary>
 		/// Finds the single field in the feild list matching the name.
-		/// If there are no fields, returns ItemNotFoundException
-		/// If multiple fields, returns InvalidOperationException
+		/// If there are no fields or multiple fields, throws InvalidOperationException
 		/// </summary>
 		/// <remarks>
 		/// This does not throw the standard ItemNotFound exception because if there were multiple fields, that would be a confusing exception

@@ -1,18 +1,4 @@
 ﻿
-Address Distinct Issue - for items selector paths separated by commas
-
------------------------------
-
-Features:
-
-Select html nodes using jQuery CSS selector syntax.
-Fluent String parsing.
-Reports offending strings for parseInt
-parses JavaScript data into DOM
-Built in Regex matching
-C#
-ScrapeRequest/ScrapeResponse
-
 How do I...
 
 GET a web page?
@@ -184,33 +170,4 @@ Find a descendant node.
 
 Clip a string.
 
-
-==========================================
-Trouble Shooting 
-==========================================
-
-Attribute selectors are slow.
-
-	Currently attribute parsing is slow and not performed unless it is needed.  
-	Adding a node-name to the selector will allow the search algorythm to only parse the attributes on matching nodes.
-	
-	var x = node.Find(".myClass"); // slow because it has to parse attributes on every single node so it can check class.
-	var y = node.Find("a.myClass"); // faster since it only needs to parse that attributes on the <a> nodes.
-	
-Selecting by #id is not Order(1).
-
-	This feature would require a lot of additional complexity and I haven't found it to be that beneficial.
-	If you need it to be Order(1), you can grab the value and reference it yourself.
-	
-Parent->Child ('>') and Sibling ('~' '+') selectors are not working.
-
-	The current parser requires these characters to be separated by a space.
-	
-	var x = node.Find("div>span");  // bad - parsing needs spaced.
-	var y = node.Find("div > span"); // good to go...
-	
-Parsing Exception for CSS selector with spaces (' ').
-
-	The parsing algorythm for the CSS selectors performs a Split(' ') and thus 
-	cannot correctly parse embeded strings with spaces such as :contains("hi there").
 

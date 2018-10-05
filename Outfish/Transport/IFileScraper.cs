@@ -1,11 +1,10 @@
 ﻿using System.IO;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Outfish {
 
 	/// <summary>
-	/// Pulls items from the web and saves writes them to streams and saves them to files.
+	/// Pulls items from the web and writes them to streams and saves them to files.
 	/// </summary>
 	public interface IFileScraper {
 

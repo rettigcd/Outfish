@@ -43,7 +43,8 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
     <Compile Include="CssSelectors\AttributeSelector_Test.cs" />
-    <Compile Include="CssSelectors\Capitalization.cs" />
+    <Compile Include="CssSelectors\CssChecker.cs" />
+    <Compile Include="CssSelectors\TagsAndRelationships.cs" />
     <Compile Include="CssSelectors\ColonSelectors_Test.cs" />
     <Compile Include="HtmlForm_Tests.cs" />
     <Compile Include="JsonSerializer_Tests.cs" />
@@ -56,33 +57,12 @@
     <Compile Include="PostData\NameValueCollection_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Uri_Tests.cs" />
-    <Compile Include="UspsAddress_Test.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Outfish\Outfish.csproj">
       <Project>{0BC9CBBE-FF5B-4FE7-ADA8-70CE9F2E74E6}</Project>
       <Name>Outfish</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="examples\UspsAddressValid.html">
-      <LogicalName>ValidAddress</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="examples\UspsAddressAlternates.html">
-      <LogicalName>AlternateAddresses</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="examples\UspsAddressInvalid.html">
-      <LogicalName>InvalidAddress</LogicalName>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="examples\UspsAddressUndeliverable.html">
-      <LogicalName>AddressUndeliverable</LogicalName>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

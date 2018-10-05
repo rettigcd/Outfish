@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Xml;
 
 namespace Outfish {
@@ -11,9 +9,8 @@ namespace Outfish {
 		// !!! TODO - this doesn't go in here, should be in the thing that calls it
 		static internal void PushChildrenOntoStack( HtmlNode root, Stack<HtmlNode> stack ) {
 			// add children to stack (in reverse 
-			for( int i = root.ChildNodes.Count; i > 0; ) {
+			for( int i = root.ChildNodes.Count; i > 0; )
 				stack.Push( root.ChildNodes[--i] );
-			}
 		}
 
 		static internal IEnumerable<HtmlNode> Descendants( HtmlNode root ) {

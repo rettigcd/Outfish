@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 
 namespace Outfish {
-
-
 
 	/// <summary>Heirachy (multi-step) html node predicate</summary>
 	/// <remarks>a css path is several steps separated by a space (' ')</remarks>
@@ -21,35 +18,19 @@ namespace Outfish {
 		#endregion
 	
 		public IEnumerable<HtmlNode> FindDescendantNodes( HtmlNode node ){
-
 			IEnumerable<HtmlNode> nodes = new HtmlNode[]{ node };
 
-			foreach(var step in this._steps){
-				//DateTime start = DateTime.Now;
-				// nodes = nodes.SelectMany<HtmlNode,HtmlNode>( step.Search );
-				
-				nodes = step.Search( nodes );
-				
-				//TimeSpan dif = DateTime.Now - start;
-				//System.Diagnostics.Debug.WriteLine( dif );
-			}
+			foreach(var step in this._steps)
+				nodes = nodes.SelectMany( step.FindDescendantNodes );
 
 			return nodes;
-
 		}
 
 		public IEnumerable<XmlNode> FindDescendantNodes( XmlNode node ) {
 			IEnumerable<XmlNode> nodes = new XmlNode[] { node };
 
-			foreach( var step in this._steps ) {
-				//DateTime start = DateTime.Now;
-				// nodes = nodes.SelectMany<HtmlNode,HtmlNode>( step.Search );
-
-				nodes = step.Search( nodes );
-
-				//TimeSpan dif = DateTime.Now - start;
-				//System.Diagnostics.Debug.WriteLine( dif );
-			}
+			foreach( var step in this._steps )
+				nodes = nodes.SelectMany( step.FindDescendantNodes );
 
 			return nodes;
 		}

@@ -48,7 +48,7 @@ namespace Outfish {
 		/// <summary>
 		/// Gets the storage mechanism for the PostData
 		/// </summary>
-		public NameValueCollection Collection{ get{ return this._postData; } }
+		public NameValueCollection Collection => _postData;
 		
 		/// <summary>
 		/// Returns a friendly string containing all entries in the post data.

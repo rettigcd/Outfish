@@ -33,8 +33,8 @@ namespace Outfish.HtmlNodeShortcuts {
 		/// <summary>Determines if the elementes 'checked' attribute is set to 'checked'</summary>
 		static public bool Checked(this HtmlNode node){ 
 			string s = node["checked"];
-			if( string.IsNullOrEmpty( s ) ){ return false; }
-			if( s.ToLower() == "checked" ){ return true; }
+			if( string.IsNullOrEmpty( s ) ) return false;
+			if( s.ToLower() == "checked" ) return true;
 			throw new Exception("Unexpected checked value '"+s+"'");
 		}
 

@@ -28,9 +28,9 @@ namespace Outfish {
 		#endregion
 
 		public bool IsMatch( HtmlNode node ){
-			foreach(INodeMatcher matcher in this.Selectors){
-				if( !matcher.IsMatch(node) ){ return false; }
-			}
+			foreach(INodeMatcher matcher in this.Selectors)
+				if( !matcher.IsMatch(node) )
+					return false;
 			return true;
 		}
 

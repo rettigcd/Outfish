@@ -20,7 +20,6 @@ namespace Outfish_Test {
 			}
 		}
 
-
 		[Test]
 		public void Even(){
 			this.Select("<root><a/><b/><c/><d/><e/></root>"
